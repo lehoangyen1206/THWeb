@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Form</title>
+</head>
+<body bgcolor="#87CEEB">
+    <center>
+        <h2>Registration Form</h2>
+        <p>Register your Jackson Electronics product here</p>
+        <form action="#" method="post">
+            <table cellpadding="4">
+                <tr>
+                    <td>First Name:</td>
+                    <td><input type="text" name="firstname"></td>
+                    <td>Last Name:</td>
+                    <td><input type="text" name="lastname"></td>
+                </tr>
+                <tr>
+                    <td>Address #1:</td>
+                    <td colspan="3"><input type="text" name="address1" size="50"></td>
+                </tr>
+                <tr>
+                    <td>Address #2:</td>
+                    <td colspan="3"><input type="text" name="address2" size="50"></td>
+                </tr>
+                <tr>
+                    <td>City:</td>
+                    <td><input type="text" name="city"></td>
+                    <td>State: <input type="text" name="state" size="3"></td>
+                    <td>Zip: <input type="text" name="zip" size="8"></td>
+                </tr>
+                <tr>
+                    <td>Country:</td>
+                    <td colspan="3"><input type="text" name="country" value="United States"></td>
+                </tr>
+                <tr><td colspan="4"><hr></td></tr>
+                <tr>
+                    <td>Product:</td>
+                    <td colspan="3">
+                        <select name="product">
+                            <option value="scanmaster">ScanMaster</option>
+                            <option value="printer">LaserPrinter</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Date Purchased:</td>
+                    <td colspan="3"><input type="text" name="date"></td>
+                </tr>
+                <tr>
+                    <td>Serial #:</td>
+                    <td colspan="3"><input type="text" name="serial"></td>
+                </tr>
+                <tr>
+                    <td>Used for:</td>
+                    <td colspan="3">
+                        <input type="radio" name="usedfor" value="home"> Home
+                        <input type="radio" name="usedfor" value="edu"> Educational Institution<br>
+                        <input type="radio" name="usedfor" value="business" checked> Business
+                        <input type="radio" name="usedfor" value="other"> Other<br>
+                        <input type="radio" name="usedfor" value="government"> Government
+                    </td>
+                </tr>
+                <tr>
+                    <td>System (check all that apply):</td>
+                    <td colspan="3">
+                        <input type="checkbox" name="sys" value="win"> Windows
+                        <input type="checkbox" name="sys" value="unix"> UNIX<br>
+                        <input type="checkbox" name="sys" value="mac"> Macintosh
+                        <input type="checkbox" name="sys" value="other"> Other
+                    </td>
+                </tr>
+                <tr><td colspan="4"><hr></td></tr>
+                <tr>
+                    <td valign="top">Comments?:</td>
+                    <td colspan="3"><textarea name="comments" rows="5" cols="40"></textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="4" align="center">
+                        <input type="submit" value="Click to register">
+                        <input type="reset" value="Click to cancel">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </center>
+</body>
+</html>
