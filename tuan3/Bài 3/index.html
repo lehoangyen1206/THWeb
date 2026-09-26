@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage - Brand</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #439a73; --bg-light: #fafafa; --dark: #1a1f29; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { color: #333; }
+        a { text-decoration: none; color: inherit; }
+        img { object-fit: cover; }
+
+        /* General & Components */
+        section { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        .sec-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; }
+        .sec-title { font-size: 26px; font-weight: 700; text-align: center; }
+        .btn { background: var(--primary); color: #fff; padding: 8px 18px; border-radius: 4px; font-size: 13px; display: inline-block; border: none; cursor: pointer; }
+        .badge { position: absolute; top: 10px; right: 10px; background: #ffb800; color: #fff; font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: bold; }
+        .icon { height: 16px; vertical-align: middle; }
+
+        /* Header */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; border-bottom: 1px solid #eee; font-size: 14px; }
+        header nav a { margin-right: 20px; color: #555; }
+        .header-right { display: flex; align-items: center; gap: 15px; }
+        .search-box input { padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; }
+
+        /* Hero */
+        .hero { position: relative; height: 350px; display: flex; align-items: center; padding: 0 80px; background: #f5ebe6; overflow: hidden; }
+        .hero img.bg { position: absolute; right: 0; top: 0; height: 100%; z-index: 1; }
+        .hero-text { position: relative; z-index: 2; max-width: 400px; }
+        .hero-text h1 { font-size: 36px; margin-bottom: 10px; }
+        .hero-text p { font-size: 13px; color: #666; margin-bottom: 20px; }
+
+        /* Tabs & Product Grid */
+        .tabs { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
+        .tab-btn { padding: 6px 16px; border-radius: 4px; font-size: 12px; border: none; background: #f0f0f0; color: #666; cursor: pointer; }
+        .tab-btn.active { background: var(--primary); color: #fff; }
+
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .p-card { background: var(--bg-light); border-radius: 8px; padding: 15px; position: relative; display: flex; flex-direction: column; }
+        .p-card img.p-img { width: 100%; height: 150px; object-fit: contain; margin: 10px 0; }
+        .p-title { font-size: 14px; font-weight: 600; }
+        .p-desc { font-size: 11px; color: #888; margin: 4px 0 12px; }
+        .p-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: auto; font-weight: 700; }
+        .p-bottom span { font-size: 12px; color: #aaa; text-decoration: line-through; font-weight: 400; }
+        .cart-btn { border: 1px solid #ddd; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: #fff; }
+
+        /* Promo, Story & News */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .promo-card { background: #f8f8f8; border-radius: 8px; display: flex; height: 180px; overflow: hidden; }
+        .promo-card img { width: 50%; }
+        .promo-info { width: 50%; padding: 20px; }
+
+        .story-box { position: relative; height: 320px; border-radius: 8px; overflow: hidden; margin-top: 15px; }
+        .story-box img { width: 100%; height: 100%; }
+        .play-btn { position: absolute; bottom: 20px; right: 20px; background: rgba(0,0,0,0.7); color: #fff; padding: 8px 16px; border-radius: 4px; font-size: 13px; }
+
+        .news-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 20px; align-items: center; }
+        .news-card { background: #f8f8f8; border-radius: 8px; overflow: hidden; }
+        .news-card img { width: 100%; height: 160px; }
+        .news-info { padding: 12px; font-size: 13px; }
+        .news-info span { font-size: 11px; color: #aaa; }
+
+        /* Instagram */
+        .insta-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 15px; }
+        .insta-grid img { width: 100%; height: 110px; border-radius: 4px; }
+
+        /* Footer */
+        footer { background: var(--dark); color: #a0aab8; padding: 40px 60px 20px; font-size: 13px; margin-top: 50px; }
+        .footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 2fr; gap: 30px; margin-bottom: 25px; }
+        .footer-col h4 { color: #fff; margin-bottom: 12px; }
+        .footer-col ul { list-style: none; line-height: 2; }
+        .form-row { display: flex; gap: 8px; margin: 12px 0; }
+        .form-row input { flex: 1; padding: 8px; background: #2a303c; border: 1px solid #3a4252; color: #fff; border-radius: 4px; }
+        .footer-bottom { border-top: 1px solid #2a303c; padding-top: 15px; text-align: right; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav><a href="#">Shop</a><a href="#">Offers</a><a href="#">Our story</a><a href="#">Blog</a></nav>
+        <img src="images/logo.png" height="30" alt="Logo">
+        <div class="header-right">
+            <div class="search-box"><input type="text" placeholder="🔍 Search..."></div>
+            <span><img src="images/cart.png" class="icon"> Cart (0)</span>
+            <img src="images/user.png" width="24" height="24" style="border-radius:50%">
+        </div>
+    </header>
+
+    <!-- Banner -->
+    <div class="hero">
+        <img src="images/banner.png" class="bg">
+        <div class="hero-text">
+            <h1>Gift for your skin</h1>
+            <p>Aliquip fugiat ipsum nostrud ex et eu incididunt quis minim dolore excepteur voluptate</p>
+            <a href="#" class="btn">Shop Now</a>
+        </div>
+    </div>
+
+    <!-- Products -->
+    <section>
+        <h2 class="sec-title">Our products</h2>
+        <div class="tabs">
+            <button class="tab-btn active">Best-sellers</button>
+            <button class="tab-btn">New products</button>
+        </div>
+        <div class="grid-4">
+            <div class="p-card"><span class="badge">Best-seller</span><img src="images/Image 1 (1).png" class="p-img"><div class="p-title">Product title</div><div class="p-desc">Labore sint ipsum dolore</div><div class="p-bottom">$32 <span>$42</span><div class="cart-btn"><img src="images/cart.png" class="icon"></div></div></div>
+            <div class="p-card"><span class="badge">Best-seller</span><img src="images/Image 1 (2).png" class="p-img"><div class="p-title">Product title</div><div class="p-desc">Labore sint ipsum dolore</div><div class="p-bottom">$22 <span>$28</span><div class="cart-btn"><img src="images/cart.png" class="icon"></div></div></div>
+            <div class="p-card"><span class="badge">Best-seller</span><img src="images/Image 1 (3).png" class="p-img"><div class="p-title">Product title</div><div class="p-desc">Labore sint ipsum dolore</div><div class="p-bottom">$18 <span>$26</span><div class="cart-btn"><img src="images/cart.png" class="icon"></div></div></div>
+            <div class="p-card"><span class="badge">Best-seller</span><img src="images/Image 1 (4).png" class="p-img"><div class="p-title">Product title</div><div class="p-desc">Labore sint ipsum dolore</div><div class="p-bottom">$48 <span>$56</span><div class="cart-btn"><img src="images/cart.png" class="icon"></div></div></div>
+        </div>
+    </section>
+
+    <!-- Event Promotion -->
+    <section>
+        <div class="sec-head"><h2>Event promotion</h2><a href="#" style="color:#888; font-size:12px;">See all</a></div>
+        <div class="grid-2">
+            <div class="promo-card"><div class="promo-info"><h3>Relaxing & Pampering</h3><p style="font-size:12px; color:#666; margin:8px 0 12px;">Pariatur ad nisi ex tempor</p><a href="#" class="btn">Explore</a></div><img src="images/Image 1 (5).png"></div>
+            <div class="promo-card"><div class="promo-info"><h3>Smooth & Bright Skin</h3><p style="font-size:12px; color:#666; margin:8px 0 12px;">Pariatur ad nisi ex tempor</p><a href="#" class="btn">Explore</a></div><img src="images/Image 1 (6).png"></div>
+        </div>
+    </section>
+
+    <!-- Our Story -->
+    <section>
+        <div class="sec-head"><h2>Our story</h2><a href="#" style="color:#888; font-size:12px;">See all</a></div>
+        <div class="story-box">
+            <img src="images/Image 1 (7).png">
+            <a href="#" class="play-btn">Watch video ▶</a>
+        </div>
+    </section>
+
+    <!-- News -->
+    <section class="news-grid">
+        <div>
+            <h2 style="font-size:26px; margin-bottom:10px;">Read what’s new</h2>
+            <p style="font-size:13px; color:#666; margin-bottom:15px;">Veniam fugiat consequat minim mollit esse duis in voluptate ut non minim</p>
+            <a href="#" class="tab-btn" style="border:1px solid #ccc;">Explore more</a>
+        </div>
+        <div class="news-card"><img src="images/Image 1 (8).png"><div class="news-info"><h4>Aliqua officia minim nulla qui sunt anim</h4><span>Oct 12, 2022</span></div></div>
+        <div class="news-card"><img src="images/Image 1 (9).png"><div class="news-info"><h4>Adipisicing elit proident in elit magna</h4><span>Oct 12, 2022</span></div></div>
+    </section>
+
+    <!-- Instagram -->
+    <section>
+        <h2 class="sec-title" style="margin-bottom:2px;">Instagram</h2>
+        <p style="text-align:center; color:#888; font-size:12px;">@yourinstagram_offical</p>
+        <div class="insta-grid">
+            <img src="images/Image 1 (10).png"><img src="images/Image 1 (11).png"><img src="images/Image 1 (12).png">
+            <img src="images/Image 1 (13).png"><img src="images/Image 1 (14).png"><img src="images/Image 1 (15).png">
+            <img src="images/Image 1 (16).png"><img src="images/Image 1 (17).png"><img src="images/Image 1 (18).png">
+            <img src="images/Image 1 (19).png"><img src="images/Image 1 (20).png"><img src="images/Image 1 (1).png">
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col"><h4>About</h4><ul><li>Home</li><li>Shop</li><li>Our story</li><li>Blogs</li></ul></div>
+            <div class="footer-col"><h4>Help</h4><ul><li>Shipping & Returns</li><li>Track Order</li><li>FAQs</li></ul></div>
+            <div class="footer-col"><h4>Contact</h4><p><b>Phone:</b> (+1) 123 456 7893</p><p style="margin-top:8px;"><b>Email:</b> name@email.com</p></div>
+            <div class="footer-col">
+                <h4>Receive new promotions</h4>
+                <p>Duis ea tempor commodo amet reprehende</p>
+                <div class="form-row">
+                    <input type="email" placeholder="Input your email">
+                    <img src="images/Button 1.png" height="34" style="cursor:pointer;">
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <img src="images/Twitter 1.png" width="18"><img src="images/Facebook 1.png" width="18"><img src="images/LinkedIn 1.png" width="18"><img src="images/YouTube 1.png" width="18">
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2022 Brand, Inc. • Privacy • Terms • Sitemap</div>
+    </footer>
+
+</body>
+</html>

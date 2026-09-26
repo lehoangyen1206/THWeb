@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Details</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; font-size: 13px; }
+        body { color: #333; line-height: 1.4; }
+        section { max-width: 900px; margin: 20px auto; padding: 0 15px; }
+        img { max-width: 100%; height: auto; border-radius: 4px; }
+        .flex { display: flex; gap: 15px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .btn { background: #439a73; color: #fff; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-out { background: #fff; border: 1px solid #ccc; color: #333; }
+        .badge { background: #fca5a5; color: #7f1d1d; font-size: 10px; padding: 2px 6px; border-radius: 3px; position: absolute; top: 8px; right: 8px; }
+        
+        /* Header & Nav */
+        header { display: flex; justify-content: space-between; padding: 12px 30px; border-bottom: 1px solid #eee; }
+        .tabs { display: flex; justify-content: center; gap: 20px; border-bottom: 1px solid #eee; margin: 30px 0 20px; }
+        .tabs span { padding-bottom: 8px; cursor: pointer; font-weight: bold; color: #666; }
+        .tabs .active { color: #439a73; border-bottom: 2px solid #439a73; }
+
+        /* Product Detail Main */
+        .p-thumbs { display: flex; flex-direction: column; gap: 8px; width: 60px; }
+        .p-thumbs img { width: 60px; height: 60px; object-fit: cover; border: 1px solid #ddd; }
+        .p-main-img { width: 300px; height: 300px; object-fit: contain; background: #f9f9f9; }
+        
+        /* Product Card */
+        .card { background: #fafafa; border-radius: 6px; padding: 10px; position: relative; }
+        .card h4 { margin: 8px 0 4px; }
+        .card .price { font-weight: bold; color: #439a73; }
+        .card .price del { color: #999; font-weight: normal; margin-left: 4px; }
+
+        /* Video / Banner Overlay */
+        .video-box { position: relative; text-align: center; }
+        .video-box .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: #fff; padding: 8px 16px; border-radius: 4px; font-weight: bold; }
+
+        /* Footer */
+        footer { background: #1f2937; color: #9ca3af; padding: 30px; margin-top: 40px; font-size: 12px; }
+        footer h4 { color: #fff; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div><a href="#" style="margin-right:15px">Shop</a><a href="#" style="margin-right:15px">Offers</a><a href="#">Blog</a></div>
+        <img src="images/Image 1 (13).png" height="24" alt="Logo">
+        <div>🛒 Cart (0)</div>
+    </header>
+
+    <section>
+        <p style="color:#888; font-size:11px; margin-bottom:15px;">Home / Shop / Face / Product details</p>
+
+        <!-- Main Product Section -->
+        <div class="flex" style="align-items: flex-start;">
+            <div class="p-thumbs">
+                <img src="images/Image 1 (1).png">
+                <img src="images/Image 1 (2).png">
+                <img src="images/Image 1 (3).png">
+                <img src="images/Image 1 (4).png">
+            </div>
+            <img src="images/Image 1 (1).png" class="p-main-img">
+            <div style="flex:1; padding-left:15px;">
+                <h2>Product name</h2>
+                <div style="color:#439a73; font-size:20px; font-weight:bold; margin:10px 0;">$32 <del style="color:#aaa; font-size:14px;">$40</del></div>
+                <div style="color:#f59e0b; margin-bottom:10px;">★★★★★ <span style="color:#666; font-size:11px;">(4.5)</span></div>
+                <p style="color:#666; margin-bottom:15px;">Duis ea tempor commodo amet reprehenderit. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.</p>
+                <div style="margin-bottom:15px;">
+                    <label>Size: </label>
+                    <select><option>50 ml</option><option>100 ml</option></select>
+                </div>
+                <div class="flex" style="align-items:center; margin-bottom:15px;">
+                    <span>Qty: </span>
+                    <input type="number" value="1" style="width:40px; text-align:center; padding:4px;">
+                </div>
+                <div class="flex">
+                    <button class="btn btn-out" style="flex:1">Add to bag</button>
+                    <button class="btn" style="flex:1">Checkout</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Products -->
+        <h3 style="margin: 30px 0 15px;">Related products</h3>
+        <div class="grid-4">
+            <div class="card"><span class="badge">Best-seller</span><img src="images/Image 1 (2).png"><h4>Product 1</h4><div class="price">$32 <del>$40</del></div></div>
+            <div class="card"><span class="badge">Best-seller</span><img src="images/Image 1 (3).png"><h4>Product 2</h4><div class="price">$22 <del>$28</del></div></div>
+            <div class="card"><span class="badge">Best-seller</span><img src="images/Image 1 (4).png"><h4>Product 3</h4><div class="price">$48 <del>$56</del></div></div>
+            <div class="card"><span class="badge">Best-seller</span><img src="images/Image 1 (5).png"><h4>Product 4</h4><div class="price">$18 <del>$26</del></div></div>
+        </div>
+
+        <!-- Detail Tabs Navigation -->
+        <div class="tabs">
+            <span class="active">Benefits</span>
+            <span>Ingredients</span>
+            <span>How to use</span>
+            <span>Reviews</span>
+            <span>FAQs</span>
+        </div>
+
+        <!-- Benefits Section -->
+        <div class="grid-2" style="align-items: center;">
+            <div>
+                <h3>Benefits</h3>
+                <h4 style="margin-top:10px;">Labore consequat eu</h4>
+                <p style="color:#666; font-size:12px;">Nostrud excepteur cupidatat ut excepteur aliquip ad minim. Deserunt elit anim id ad est commodo do.</p>
+                <h4 style="margin-top:10px;">Cilum dolore eu labore</h4>
+                <p style="color:#666; font-size:12px;">Nostrud excepteur cupidatat ut excepteur aliquip ad minim.</p>
+            </div>
+            <img src="images/Image 1 (6).png">
+        </div>
+
+        <!-- Ingredients Section -->
+        <h3 style="margin: 30px 0 15px;">Ingredients</h3>
+        <div class="grid-3">
+            <div class="card"><img src="images/Image 1 (7).png"><h4>Hyaluronic acid</h4><p style="color:#666; font-size:11px;">Elit ut labore et dolore magna aliqua</p></div>
+            <div class="card"><img src="images/Image 1 (8).png"><h4>Green tea</h4><p style="color:#666; font-size:11px;">Elit ut labore et dolore magna aliqua</p></div>
+            <div class="card"><img src="images/Image 1 (9).png"><h4>Olive oil</h4><p style="color:#666; font-size:11px;">Elit ut labore et dolore magna aliqua</p></div>
+        </div>
+
+        <!-- How to use -->
+        <h3 style="margin: 30px 0 15px;">How to use</h3>
+        <div class="video-box">
+            <img src="images/Image 1 (10).png" style="width:100%; height:220px; object-fit:cover;">
+            <div class="play-btn">WATCH VIDEO ▶</div>
+        </div>
+
+        <!-- Reviews & FAQs -->
+        <div class="grid-2" style="margin-top: 30px;">
+            <div>
+                <h3>Reviews</h3>
+                <div style="font-size:32px; font-weight:bold; margin-top:5px;">4.5</div>
+                <div style="color:#f59e0b;">★★★★★</div>
+                <p style="color:#888; font-size:11px;">Based on 128 reviews</p>
+            </div>
+            <div>
+                <h3>FAQs</h3>
+                <p style="border-bottom:1px solid #eee; padding:8px 0; font-weight:bold;">How long does it take to see results? <span style="float:right;">+</span></p>
+                <p style="border-bottom:1px solid #eee; padding:8px 0; font-weight:bold;">Is this product suitable for sensitive skin? <span style="float:right;">+</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="grid-4">
+            <div><h4>About</h4><p>Home</p><p>Shop</p><p>Blogs</p></div>
+            <div><h4>Help</h4><p>Shipping</p><p>Returns</p><p>FAQs</p></div>
+            <div><h4>Contact</h4><p>+(1) 123 456 7893</p><p>name@email.com</p></div>
+            <div>
+                <h4>Promotions</h4>
+                <div class="flex" style="margin-top:8px;">
+                    <input type="email" placeholder="Your email" style="padding:6px; background:#374151; border:none; color:#fff; border-radius:3px;">
+                    <button class="btn">Sub</button>
+                </div>
+            </div>
+        </div>
+        <p style="text-align:right; margin-top:20px; font-size:11px;">© 2022 Brand, Inc. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
