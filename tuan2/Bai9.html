@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchEngine - Voice Search Listening</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f5f7;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Header Header Blurred */
+        header {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 12px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 20px;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-tabs a {
+            text-decoration: none;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Page background dimmed */
+        .page-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .blurred-background-cards {
+            display: flex;
+            gap: 15px;
+            opacity: 0.2;
+            filter: blur(3px);
+            pointer-events: none;
+        }
+
+        .bg-card {
+            width: 140px;
+            height: 180px;
+            background: #fff;
+            border-radius: 12px;
+        }
+
+        /* Dark Backdrop Overlay */
+        .backdrop-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Voice Modal Box */
+        .voice-modal {
+            background: #ffffff;
+            width: 380px;
+            height: 240px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        /* Pulse Animated Microphone Icon */
+        .mic-container {
+            width: 70px;
+            height: 70px;
+            background: #eef2ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .mic-container::before,
+        .mic-container::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            background: rgba(79, 70, 229, 0.2);
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .mic-container::after {
+            inset: -16px;
+            background: rgba(79, 70, 229, 0.1);
+            animation-delay: 0.5s;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 0.4; }
+            100% { transform: scale(0.9); opacity: 0.8; }
+        }
+
+        .mic-icon {
+            font-size: 28px;
+            color: #4f46e5;
+            z-index: 2;
+        }
+
+        .listening-text {
+            font-size: 15px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            padding: 20px 0;
+            text-align: center;
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        footer a {
+            color: #aaa;
+            margin: 0 6px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-sparkles"></i> SearchEngine
+        </div>
+        <ul class="nav-tabs">
+            <li><a href="#">Images</a></li>
+            <li><a href="#">Videos</a></li>
+            <li><a href="#">Shopping</a></li>
+            <li><a href="#">News</a></li>
+        </ul>
+        <div class="user-profile">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="Avatar" class="avatar">
+            <span>Sofia Perez</span>
+        </div>
+    </header>
+
+    <!-- Main Page Content -->
+    <div class="page-content">
+        <div class="blurred-background-cards">
+            <div class="bg-card"></div>
+            <div class="bg-card"></div>
+            <div class="bg-card"></div>
+            <div class="bg-card"></div>
+        </div>
+    </div>
+
+    <!-- Voice Search Modal Overlay -->
+    <div class="backdrop-overlay">
+        <div class="voice-modal">
+            <div class="mic-container">
+                <i class="fa-solid fa-microphone mic-icon"></i>
+            </div>
+            <div class="listening-text">Listening...</div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <a href="#">Manage Cookies</a> | 
+        <a href="#">Privacy</a> | 
+        <a href="#">Legal</a> | 
+        <a href="#">About us</a> | 
+        <a href="#">Help</a> | 
+        <a href="#">Feedback</a>
+    </footer>
+
+</body>
+</html>

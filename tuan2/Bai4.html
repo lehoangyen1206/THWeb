@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchEngine - Shopping</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            padding-bottom: 40px;
+        }
+
+        /* Header */
+        header {
+            background-color: #fff;
+            padding: 12px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 20px;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-tabs a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            padding-bottom: 8px;
+        }
+
+        .nav-tabs a.active {
+            color: #4f46e5;
+            font-weight: 600;
+            border-bottom: 2px solid #4f46e5;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Search Section */
+        .search-section {
+            display: flex;
+            justify-content: center;
+            margin: 25px 0 35px 0;
+        }
+
+        .search-bar {
+            width: 500px;
+            background: #f1f3f4;
+            border-radius: 24px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 80%;
+        }
+
+        .search-input input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .search-icons {
+            display: flex;
+            gap: 12px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        /* Slider Carousel: Top Searched Products */
+        .carousel-wrapper {
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        .carousel {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .top-product-card {
+            height: 220px;
+            border-radius: 12px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .top-product-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 60%);
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .watch-badge {
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            width: fit-content;
+        }
+
+        .top-product-card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .shop-now-btn {
+            background: #fff;
+            color: #333;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Nav Buttons for Slider */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            color: #555;
+            font-size: 12px;
+        }
+
+        .nav-btn.left { left: -16px; }
+        .nav-btn.right { right: -16px; }
+
+        /* Product Grid: You Might Like */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 160px;
+            border-radius: 8px;
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 10px;
+        }
+
+        .product-name {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #222;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .price {
+            font-size: 13px;
+            font-weight: 700;
+            color: #4f46e5;
+        }
+
+        .vendor {
+            font-size: 10px;
+            color: #777;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .show-more-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 6px 16px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 12px;
+            font-size: 11px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+        }
+
+        footer a {
+            color: #888;
+            margin: 0 8px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-sparkles"></i> SearchEngine
+        </div>
+        <ul class="nav-tabs">
+            <li><a href="#">Images</a></li>
+            <li><a href="#">Videos</a></li>
+            <li><a href="#" class="active">Shopping</a></li>
+            <li><a href="#">News</a></li>
+        </ul>
+        <div class="user-profile">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="Avatar" class="avatar">
+            <span>Sofia Perez</span>
+            <i class="fa-solid fa-chevron-down" style="font-size: 10px;"></i>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+    <div class="search-section">
+        <div class="search-bar">
+            <div class="search-input">
+                <i class="fa-solid fa-magnifying-glass" style="color: #aaa;"></i>
+                <input type="text" placeholder="Search everything">
+            </div>
+            <div class="search-icons">
+                <i class="fa-regular fa-image"></i>
+                <i class="fa-solid fa-microphone"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Top-searched Products Carousel -->
+        <h2 class="section-title">Top-searched Products</h2>
+        
+        <div class="carousel-wrapper">
+            <div class="nav-btn left"><i class="fa-solid fa-chevron-left"></i></div>
+            
+            <div class="carousel">
+                <div class="top-product-card" style="background-image: url('https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400');">
+                    <div class="watch-badge"><i class="fa-solid fa-eye"></i> 1.5k searches</div>
+                    <div class="card-content">
+                        <h3>Smartphone Pro</h3>
+                        <button class="shop-now-btn">Shop Now</button>
+                    </div>
+                </div>
+
+                <div class="top-product-card" style="background-image: url('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400');">
+                    <div class="watch-badge"><i class="fa-solid fa-eye"></i> 1.8k searches</div>
+                    <div class="card-content">
+                        <h3>Noise-Cancelling Wireless Headphones</h3>
+                        <button class="shop-now-btn">Shop Now</button>
+                    </div>
+                </div>
+
+                <div class="top-product-card" style="background-image: url('https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400');">
+                    <div class="watch-badge"><i class="fa-solid fa-eye"></i> 900 searches</div>
+                    <div class="card-content">
+                        <h3>EcoTech Air Purifier</h3>
+                        <button class="shop-now-btn">Shop Now</button>
+                    </div>
+                </div>
+
+                <div class="top-product-card" style="background-image: url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400');">
+                    <div class="watch-badge"><i class="fa-solid fa-eye"></i> 700 searches</div>
+                    <div class="card-content">
+                        <h3>Smartwatch UltraFit</h3>
+                        <button class="shop-now-btn">Shop Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-btn right"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>
+
+        <!-- You Might Like Grid -->
+        <h2 class="section-title">You might like</h2>
+
+        <div class="products-grid">
+            <!-- Row 1 -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=300');"></div>
+                <div class="product-name">Smartphone X Pro</div>
+                <div class="product-footer">
+                    <span class="price">$999</span>
+                    <span class="vendor"><i class="fa-solid fa-store"></i> Amazon</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=300');"></div>
+                <div class="product-name">NoiseFit Earbuds</div>
+                <div class="product-footer">
+                    <span class="price">$79</span>
+                    <span class="vendor"><i class="fa-solid fa-store"></i> Best Buy</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1616627547584-bf28cee262db?w=300');"></div>
+                <div class="product-name">AirClean Purifier</div>
+                <div class="product-footer">
+                    <span class="price">$149</span>
+                    <span class="vendor"><i class="fa-solid fa-store"></i> Walmart</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=300');"></div>
+                <div class="product-name">UltraFit Smartwatch</div>
+                <div class="product-footer">
+                    <span class="price">$199</span>
+                    <span class="vendor"><i class="fa-solid fa-store"></i> Target</span>
+                </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=300');"></div>
+                <div class="product-name">ProBlend Mixer</div>
+                <div class="product-footer">
+                    <span class="price">$89</span>
+                    <span class="vendor"><i class="fa-solid fa-store"></i> eBay</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?w=300');"></div>
+                <div class="product-name">SmartHome Camera</div>
+                <div class="product-footer">
+                    <span class="price">$129</span>
+                    <span class="vendor"><i class="fa-solid fa-store"></i> AliExpress</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=300');"></div>
+                <div class="product-name">GlideTech Electric Scooter</div>
+                <div class="product-footer">
+                    <span class="price">$499</span>
+                    <span class="vendor"><i class="fa-solid fa-store"></i> Amazon</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300');"></div>
+                <div class="product-name">ZenComfort Massage Chair</div>
+                <div class="product-footer">
+                    <span class="price">$799</span>
+                    <span class="vendor"><i class="fa-solid fa-store"></i> Wayfair</span>
+                </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=300');"></div>
+                <div class="product-name">CleanWave Robot Vacuum</div>
+                <div class="product-footer">
+                    <span class="price">$299</span>
+                    <span class="vendor"><i class="fa-solid fa-store"></i> Lazada</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1565026057447-b88e3f29042b?w=300');"></div>
+                <div class="product-name">TravelMate Luggage Set</div>
+                <div class="product-footer">
+                    <span class="price">$159</span>
+                    <span class="vendor"><i class="fa-solid fa-store"></i> Shopee</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?w=300');"></div>
+                <div class="product-name">GamePro Wireless Controller</div>
+                <div class="product-footer">
+                    <span class="price">$59</span>
+                    <span class="vendor"><i class="fa-solid fa-store"></i> Newegg</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1517668808822-9ebd02f2a8de?w=300');"></div>
+                <div class="product-name">BrewEase Coffee Maker</div>
+                <div class="product-footer">
+                    <span class="price">$129</span>
+                    <span class="vendor"><i class="fa-solid fa-store"></i> Home Depot</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="show-more-btn">Show more</button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <a href="#">Manage Cookies</a> | 
+        <a href="#">Privacy</a> | 
+        <a href="#">Legal</a> | 
+        <a href="#">About us</a> | 
+        <a href="#">Help</a> | 
+        <a href="#">Feedback</a>
+    </footer>
+
+</body>
+</html>

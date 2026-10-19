@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài tập ranh giới từ</title>
+</head>
+<body>
+    <h2>Bài 1: Đếm số lần từ "js" đứng riêng</h2>
+    <p>Chuỗi: js và reactjs dùng js</p>
+    <button onclick="kiemTraBai1()">Kiểm tra</button>
+    <p id="kq1"></p>
+
+    <h2>Bài 2: Đổi từ khóa "var" thành "let"</h2>
+    <p>Chuỗi: var x; var variable;</p>
+    <button onclick="kiemTraBai2()">Thay thế</button>
+    <p id="kq2"></p>
+
+    <h2>Bài 3: Tìm từ có "ing" nằm giữa từ</h2>
+    <p>Chuỗi: sing singer ingot</p>
+    <button onclick="kiemTraBai3()">Tìm từ</button>
+    <p id="kq3"></p>
+
+    <script>
+        function kiemTraBai1() {
+            let chuoi = "js và reactjs dùng js";
+            let regex = /\bjs\b/g;
+            let ketQua = chuoi.match(regex);
+
+            document.getElementById("kq1").innerText =
+                "Kết quả: " + ketQua.length + " lần";
+        }
+
+        function kiemTraBai2() {
+            let chuoi = "var x; var variable;";
+            let regex = /\bvar\b/g;
+            let ketQua = chuoi.replace(regex, "let");
+
+            document.getElementById("kq2").innerText = ketQua;
+        }
+
+        function kiemTraBai3() {
+            let chuoi = "sing singer ingot";
+            let regex = /\w+ing\w+/g;
+            let ketQua = chuoi.match(regex);
+
+            document.getElementById("kq3").innerText =
+                ketQua ? ketQua.join(", ") : "Không tìm thấy";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchEngine - Auto-complete Suggestion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f5f7;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Header Blurred */
+        header {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 12px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 20px;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-tabs a {
+            text-decoration: none;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Background Content Area (Faded Content) */
+        .page-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding-top: 60px;
+        }
+
+        .blurred-background-cards {
+            display: flex;
+            gap: 15px;
+            opacity: 0.35;
+            filter: blur(2px);
+            pointer-events: none;
+        }
+
+        .bg-card {
+            width: 140px;
+            height: 180px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        /* Overlay Popover Component */
+        .search-popover {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 440px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.15), 0 4px 12px rgba(0,0,0,0.08);
+            padding: 16px;
+            z-index: 10;
+            border: 1px solid #eef2ff;
+        }
+
+        .popover-search-bar {
+            background: #fff;
+            border: 2px solid #6366f1;
+            border-radius: 20px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .search-input-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 80%;
+        }
+
+        .search-input-wrap input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 13px;
+        }
+
+        .search-icons {
+            display: flex;
+            gap: 10px;
+            color: #6366f1;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .suggestions-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 15px;
+        }
+
+        .suggestion-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #333;
+            padding: 6px 8px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f5f6ff;
+        }
+
+        .suggestion-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .suggestion-left i {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .suggestion-item.news-item {
+            align-items: flex-start;
+        }
+
+        .news-thumb {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        .news-text-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .news-title {
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .news-badge {
+            font-size: 10px;
+            background: #f0f0f0;
+            color: #666;
+            padding: 1px 6px;
+            border-radius: 4px;
+            width: fit-content;
+        }
+
+        .remove-btn {
+            font-size: 11px;
+            color: #4f46e5;
+            cursor: pointer;
+        }
+
+        .search-action-btn {
+            width: 100%;
+            background: #4f46e5;
+            color: #fff;
+            border: none;
+            padding: 8px 0;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        /* Nav Arrows in Background */
+        .arrow-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .arrow-btn.left { left: 15%; }
+        .arrow-btn.right { right: 15%; }
+
+        /* Footer */
+        footer {
+            padding: 20px 0;
+            text-align: center;
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        footer a {
+            color: #aaa;
+            margin: 0 6px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-sparkles"></i> SearchEngine
+        </div>
+        <ul class="nav-tabs">
+            <li><a href="#">Images</a></li>
+            <li><a href="#">Videos</a></li>
+            <li><a href="#">Shopping</a></li>
+            <li><a href="#">News</a></li>
+        </ul>
+        <div class="user-profile">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="Avatar" class="avatar">
+            <span>Sofia Perez</span>
+        </div>
+    </header>
+
+    <!-- Main Page Content with Overlay Popover -->
+    <div class="page-content">
+        
+        <span class="arrow-btn left"><i class="fa-solid fa-chevron-left"></i></span>
+
+        <!-- Faded/Blurred background placeholders -->
+        <div class="blurred-background-cards">
+            <div class="bg-card"></div>
+            <div class="bg-card"></div>
+            <div class="bg-card"></div>
+            <div class="bg-card"></div>
+        </div>
+
+        <span class="arrow-btn right"><i class="fa-solid fa-chevron-right"></i></span>
+
+        <!-- Search Auto-complete Popover -->
+        <div class="search-popover">
+            <div class="popover-search-bar">
+                <div class="search-input-wrap">
+                    <i class="fa-solid fa-magnifying-glass" style="color: #6366f1;"></i>
+                    <input type="text" value="weather">
+                </div>
+                <div class="search-icons">
+                    <i class="fa-solid fa-xmark" style="color: #aaa;"></i>
+                    <i class="fa-regular fa-image"></i>
+                    <i class="fa-solid fa-microphone"></i>
+                </div>
+            </div>
+
+            <ul class="suggestions-list">
+                <li class="suggestion-item">
+                    <div class="suggestion-left">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span>weather <strong>today</strong></span>
+                    </div>
+                    <span class="remove-btn">Remove</span>
+                </li>
+                <li class="suggestion-item">
+                    <div class="suggestion-left">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span>weather <strong>forecast</strong></span>
+                    </div>
+                    <span class="remove-btn">Remove</span>
+                </li>
+                <li class="suggestion-item">
+                    <div class="suggestion-left">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span>weather <strong>this week</strong></span>
+                    </div>
+                </li>
+                <li class="suggestion-item">
+                    <div class="suggestion-left">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span>weather <strong>today at my location</strong></span>
+                    </div>
+                </li>
+                
+                <!-- News suggestion items -->
+                <li class="suggestion-item news-item">
+                    <div class="suggestion-left">
+                        <div class="news-thumb" style="background-image: url('https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=100');"></div>
+                        <div class="news-text-wrap">
+                            <span class="news-title">Weather Alert: Severe Storms Incoming</span>
+                            <span class="news-badge">News</span>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="suggestion-item news-item">
+                    <div class="suggestion-left">
+                        <div class="news-thumb" style="background-image: url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=100');"></div>
+                        <div class="news-text-wrap">
+                            <span class="news-title">Weather Update: Record-Breaking Heat</span>
+                            <span class="news-badge">News</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <button class="search-action-btn">Search</button>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <a href="#">Manage Cookies</a> | 
+        <a href="#">Privacy</a> | 
+        <a href="#">Legal</a> | 
+        <a href="#">About us</a> | 
+        <a href="#">Help</a> | 
+        <a href="#">Feedback</a>
+    </footer>
+
+</body>
+</html>

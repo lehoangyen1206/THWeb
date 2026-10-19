@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài tập phần 2</title>
+</head>
+<body>
+    <h2>Bài 1: Từ "programming", chỉ giữ lại các nguyên âm.</h2>
+    
+    <script>
+        let chuoi1 = "programming";
+        let ketQua1 = chuoi1.replace(/[^ueoai]/g, " ");
+
+        document.write("Chuỗi ban đầu: " + chuoi1 + "<br>");
+        document.write("Kết quả: " + ketQua1);
+    </script>
+
+    <h2>Bài 2: Lấy các cụm trong ngoặc kép từ 'nói "xin chào" và "tạm biệt"'</h2>
+
+    <script>
+        let chuoi2 = 'nói "xin chào" và "tạm biệt"';
+        let ketQua2 = chuoi2.match(/"[^"]*"/g);
+
+        document.write("Chuỗi ban đầu: " + chuoi2 + "<br>");
+        document.write("Các cụm trong ngoặc kép: " + ketQua2);
+    </script>
+    
+    <h2>Bài 3: Tách "a1,b2;c3" tại mọi ký tự không phải chữ thường hoặc chữ số</h2>
+
+    <script>
+        let chuoi3 = "a1,b2;c3";
+        let ketQua3 = chuoi3.split(/[^a-z0-9]/);
+
+        document.write("Chuỗi ban đầu: " + chuoi3 + "<br>");
+        document.write("Kết quả: " + ketQua3);
+    </script>
+</body>
+</html>

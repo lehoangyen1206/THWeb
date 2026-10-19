@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchEngine - News</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            padding-bottom: 40px;
+        }
+
+        /* Header */
+        header {
+            background-color: #fff;
+            padding: 12px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 20px;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-tabs a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            padding-bottom: 8px;
+        }
+
+        .nav-tabs a.active {
+            color: #4f46e5;
+            font-weight: 600;
+            border-bottom: 2px solid #4f46e5;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Search Section */
+        .search-section {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .search-bar {
+            width: 500px;
+            background: #f1f3f4;
+            border-radius: 24px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 80%;
+        }
+
+        .search-input input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .search-icons {
+            display: flex;
+            gap: 12px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        /* Hero Breaking News Section */
+        .hero-news {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .featured-card {
+            position: relative;
+            height: 310px;
+            border-radius: 12px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .featured-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 70%);
+        }
+
+        .card-body {
+            position: relative;
+            z-index: 1;
+        }
+
+        .meta-tag {
+            font-size: 11px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(4px);
+            padding: 3px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .featured-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 6px;
+        }
+
+        .featured-card p {
+            font-size: 12px;
+            color: #ddd;
+            line-height: 1.4;
+        }
+
+        .sub-news-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .small-news-card {
+            position: relative;
+            height: 148px;
+            border-radius: 12px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 12px;
+            color: #fff;
+        }
+
+        .small-news-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 70%);
+        }
+
+        .small-news-card h4 {
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        /* Categories Bar */
+        .categories-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .category-tab {
+            padding: 6px 14px;
+            border-radius: 16px;
+            cursor: pointer;
+        }
+
+        .category-tab.active {
+            background-color: #eef2ff;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+
+        /* News Layout (Left-Right Grid) */
+        .category-news-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .news-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Article Items */
+        .article-card {
+            display: flex;
+            gap: 12px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            align-items: center;
+        }
+
+        .article-thumb {
+            width: 100px;
+            height: 70px;
+            border-radius: 6px;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        .article-info h5 {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .article-info p {
+            font-size: 11px;
+            color: #777;
+            line-height: 1.3;
+        }
+
+        /* Big Banner Cards in Category */
+        .category-banner-card {
+            position: relative;
+            height: 240px;
+            border-radius: 12px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 15px;
+            color: #fff;
+        }
+
+        .category-banner-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 60%);
+        }
+
+        .show-more-btn {
+            display: block;
+            margin: 30px auto 10px auto;
+            padding: 6px 16px;
+            background: #e0e0e0;
+            border: none;
+            border-radius: 12px;
+            font-size: 11px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+        }
+
+        footer a {
+            color: #888;
+            margin: 0 8px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-sparkles"></i> SearchEngine
+        </div>
+        <ul class="nav-tabs">
+            <li><a href="#">Images</a></li>
+            <li><a href="#">Videos</a></li>
+            <li><a href="#">Shopping</a></li>
+            <li><a href="#" class="active">News</a></li>
+        </ul>
+        <div class="user-profile">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="Avatar" class="avatar">
+            <span>Sofia Perez</span>
+            <i class="fa-solid fa-chevron-down" style="font-size: 10px;"></i>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+    <div class="search-section">
+        <div class="search-bar">
+            <div class="search-input">
+                <i class="fa-solid fa-magnifying-glass" style="color: #aaa;"></i>
+                <input type="text" placeholder="Search everything">
+            </div>
+            <div class="search-icons">
+                <i class="fa-regular fa-image"></i>
+                <i class="fa-solid fa-microphone"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="section-title">Breaking News</h2>
+
+        <!-- Top Breaking News Grid -->
+        <div class="hero-news">
+            <div class="featured-card" style="background-image: url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800');">
+                <div class="card-body">
+                    <span class="meta-tag">techworldnews.com • 2h ago</span>
+                    <h3>Global Tech Conference Unveils Futuristic AI Solutions</h3>
+                    <p>Industry leaders introduced groundbreaking AI innovations, enhancing automation and user experiences.</p>
+                </div>
+            </div>
+
+            <div class="sub-news-grid">
+                <div class="small-news-card" style="background-image: url('https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=400');">
+                    <div class="card-body">
+                        <span class="meta-tag">yournews.com • 1h ago</span>
+                        <h4>Major Breakthrough in Renewable Energy Technology</h4>
+                    </div>
+                </div>
+
+                <div class="small-news-card" style="background-image: url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400');">
+                    <div class="card-body">
+                        <span class="meta-tag">communitydaily.com • 3h ago</span>
+                        <h4>Local Community Rallies to Support Flood Victims</h4>
+                    </div>
+                </div>
+
+                <div class="small-news-card" style="background-image: url('https://images.unsplash.com/photo-1517649763962-0c623266ddc0?w=400');">
+                    <div class="card-body">
+                        <span class="meta-tag">sportsnow.com • 4h ago</span>
+                        <h4>Sports Legend Announces Retirement After Glorious Career</h4>
+                    </div>
+                </div>
+
+                <div class="small-news-card" style="background-image: url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400');">
+                    <div class="card-body">
+                        <span class="meta-tag">healthdaily.com • 5h ago</span>
+                        <h4>New Study Highlights the Benefits of Fasting Workout</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories Filter -->
+        <div class="categories-bar">
+            <span class="category-tab">World News</span>
+            <span class="category-tab">Politics</span>
+            <span class="category-tab">Business</span>
+            <span class="category-tab active">Technology</span>
+            <span class="category-tab">Health</span>
+            <span class="category-tab">Entertainment</span>
+            <span class="category-tab">Sports</span>
+            <span class="category-tab">Others</span>
+        </div>
+
+        <!-- News Main Grid -->
+        <div class="category-news-grid">
+            <!-- Left Column -->
+            <div class="news-column">
+                <div class="article-card">
+                    <div class="article-thumb" style="background-image: url('https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300');"></div>
+                    <div class="article-info">
+                        <span class="meta-tag" style="color:#666; background:#eee;">techinsider.com • 2h ago</span>
+                        <h5>AI-Powered Smartphones Launched</h5>
+                        <p>New phones offer enhanced AI features for better photography...</p>
+                    </div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-thumb" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=300');"></div>
+                    <div class="article-info">
+                        <span class="meta-tag" style="color:#666; background:#eee;">scitech-news.com • 2h ago</span>
+                        <h5>Quantum Computing Breakthrough</h5>
+                        <p>Scientists achieve faster processing speed using advanced quantum...</p>
+                    </div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-thumb" style="background-image: url('https://images.unsplash.com/photo-1563720223185-11003d516935?w=300');"></div>
+                    <div class="article-info">
+                        <span class="meta-tag" style="color:#666; background:#eee;">autotechworld.com • 3h ago</span>
+                        <h5>Affordable EV Hits the Market</h5>
+                        <p>Electric car giant launches a budget-friendly model with improved range.</p>
+                    </div>
+                </div>
+
+                <div class="category-banner-card" style="background-image: url('https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=600');">
+                    <div class="card-body">
+                        <span class="meta-tag">greenchronicle.com • 3h ago</span>
+                        <h3>Tech Goes Green</h3>
+                        <p>Sustainable innovations steal the spotlight at the latest tech conference.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="news-column">
+                <div class="category-banner-card" style="background-image: url('https://images.unsplash.com/photo-1592478411213-6153e4ebc07d?w=600');">
+                    <div class="card-body">
+                        <span class="meta-tag">vrtechinsider.com • 4h ago</span>
+                        <h3>Next-Gen VR Headset Unveiled</h3>
+                        <p>The new headset offers ultra-realistic visuals for gaming and simulations.</p>
+                    </div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-thumb" style="background-image: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=300');"></div>
+                    <div class="article-info">
+                        <span class="meta-tag" style="color:#666; background:#eee;">cyberthreats.com • 5h ago</span>
+                        <h5>AI Threats on the Rise</h5>
+                        <p>Cybersecurity experts warn about increasing AI-driven cyberattacks.</p>
+                    </div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-thumb" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300');"></div>
+                    <div class="article-info">
+                        <span class="meta-tag" style="color:#666; background:#eee;">socialbuzznews.com • 1h ago</span>
+                        <h5>Social Media Tests AI Feeds</h5>
+                        <p>AI algorithms may soon deliver hyper-personalized content suggestions.</p>
+                    </div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-thumb" style="background-image: url('https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=300');"></div>
+                    <div class="article-info">
+                        <span class="meta-tag" style="color:#666; background:#eee;">spacenews.com • 1h ago</span>
+                        <h5>Private Firm Plans Moon Mission</h5>
+                        <p>A startup aims to launch a commercial mission to the Moon by 2027.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="show-more-btn">Show more</button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <a href="#">Manage Cookies</a> | 
+        <a href="#">Privacy</a> | 
+        <a href="#">Legal</a> | 
+        <a href="#">About us</a> | 
+        <a href="#">Help</a> | 
+        <a href="#">Feedback</a>
+    </footer>
+
+</body>
+</html>

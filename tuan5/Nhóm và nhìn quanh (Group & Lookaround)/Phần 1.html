@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài tập Capture Group</title>
+</head>
+<body>
+    <h2>Bài 1: Tách email thành tên và tên miền</h2>
+    <p>Email: tien@gmail.com</p>
+    <button onclick="kiemTraBai1()">Tách email</button>
+    <p id="kq1"></p>
+
+    <h2>Bài 2: Đổi định dạng ngày tháng</h2>
+    <p>Ngày: 25/09/2026</p>
+    <button onclick="kiemTraBai2()">Chuyển đổi</button>
+    <p id="kq2"></p>
+
+    <h2>Bài 3: Kiểm tra chuỗi "ab" lặp lại</h2>
+    <input type="text" id="bai3" value="ababab">
+    <button onclick="kiemTraBai3()">Kiểm tra</button>
+    <p id="kq3"></p>
+
+    <script>
+        function kiemTraBai1() {
+            let email = "tien@gmail.com";
+            let regex = /(\w+)@([\w.]+)/;
+            let ketQua = email.match(regex);
+
+            document.getElementById("kq1").innerText =
+                "Tên: " + ketQua[1] +
+                " | Tên miền: " + ketQua[2];
+        }
+
+        function kiemTraBai2() {
+            let ngay = "25/09/2026";
+            let ketQua = ngay.replace(
+                /(\d{2})\/(\d{2})\/(\d{4})/,
+                "$3-$2-$1"
+            );
+
+            document.getElementById("kq2").innerText = ketQua;
+        }
+
+        function kiemTraBai3() {
+            let chuoi = document.getElementById("bai3").value;
+            let regex = /^(ab)+$/;
+
+            document.getElementById("kq3").innerText =
+                regex.test(chuoi) ? "True" : "False";
+        }
+    </script>
+</body>
+</html>

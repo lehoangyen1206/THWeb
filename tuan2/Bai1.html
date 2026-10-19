@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchEngine - Trang tìm kiếm</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #252936;
+            background: #f5f6fa;
+        }
+
+        header {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #5655ff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .logo-icon {
+            font-size: 35px;
+        }
+
+        nav {
+            display: flex;
+            gap: 35px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #656b7a;
+            padding: 12px 0;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #5655ff;
+            border-bottom: 2px solid #5655ff;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        main {
+            min-height: 750px;
+            padding: 70px 20px;
+        }
+
+        .search-box {
+            width: min(100%, 500px);
+            height: 48px;
+            margin: 0 auto 85px;
+            background: white;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            padding: 0 18px;
+            box-shadow: 0 2px 8px #00000008;
+        }
+
+        .search-box span {
+            color: #8c91a3;
+            font-size: 20px;
+        }
+
+        .search-box input {
+            flex: 1;
+            min-width: 0;
+            border: none;
+            outline: none;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .search-tools {
+            display: flex;
+            gap: 14px;
+            color: #5655ff;
+            font-size: 20px;
+        }
+
+        .content {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 25px;
+            margin-bottom: 35px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e2e4eb;
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 105px;
+        }
+
+        .card img {
+            width: 82px;
+            height: 82px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card h3 {
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 0 0 12px;
+        }
+
+        .views {
+            display: inline-block;
+            padding: 6px 9px;
+            border-radius: 20px;
+            background: #f1f2f6;
+            font-size: 10px;
+            color: #646a78;
+        }
+
+        .card.hidden {
+            display: none;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px -45px;
+        }
+
+        .arrow {
+            width: 38px;
+            height: 38px;
+            border: 1px solid #e1e2ef;
+            background: white;
+            border-radius: 50%;
+            font-size: 22px;
+            color: #6565ff;
+            cursor: pointer;
+        }
+
+        .arrow:hover {
+            background: #eeeeff;
+        }
+
+        .show-more {
+            display: block;
+            margin: 35px auto 0;
+            padding: 13px 24px;
+            color: white;
+            background: #5655ff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .show-more:hover {
+            background: #403fe0;
+        }
+
+        footer {
+            min-height: 75px;
+            padding: 20px 30px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+            color: #7d8190;
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        footer a {
+            color: #7d8190;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #5655ff;
+        }
+
+        @media (max-width: 750px) {
+            header {
+                height: auto;
+                padding: 15px;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            nav {
+                gap: 15px;
+                order: 3;
+                width: 100%;
+                justify-content: center;
+            }
+
+            main {
+                padding: 35px 15px;
+            }
+
+            .search-box {
+                margin-bottom: 50px;
+            }
+
+            .cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .controls {
+                margin: 20px 0;
+            }
+
+            .card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .card img {
+                width: 100%;
+                height: 130px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .user {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <span class="logo-icon">🪐</span>
+            <span>SearchEngine</span>
+        </div>
+
+        <nav>
+            <a href="index.html">Images</a>
+            <a href="#">Videos</a>
+            <a href="#">Shopping</a>
+            <a href="#">News</a>
+        </nav>
+
+        <div class="user">
+            <img class="avatar"
+                 src="https://i.pravatar.cc/100?img=47"
+                 alt="Avatar">
+            <span>Sofia Perez</span>
+            <span>⌄</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="search-box">
+            <span>⌕</span>
+            <input type="text" id="searchInput"
+                   placeholder="Search everything">
+            <div class="search-tools">
+                <span title="Tìm bằng hình ảnh">▧</span>
+                <span title="Tìm bằng giọng nói">♩</span>
+            </div>
+        </div>
+
+        <section class="content">
+            <h1>Today's trending searches</h1>
+
+            <div class="cards" id="trendingList">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=300"
+                         alt="Công nghệ">
+                    <div>
+                        <h3>Major Tech Breakthrough Announced</h3>
+                        <span class="views">⌕ 120K searches</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=300"
+                         alt="Năng lượng">
+                    <div>
+                        <h3>Environmental Progress 2025</h3>
+                        <span class="views">⌕ 110K searches</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=300"
+                         alt="Sức khỏe">
+                    <div>
+                        <h3>Morning Affirmations Mental Health</h3>
+                        <span class="views">⌕ 110K searches</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=300"
+                         alt="Du lịch">
+                    <div>
+                        <h3>Best Spring Travel Destinations 2025</h3>
+                        <span class="views">⌕ 100K searches</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300"
+                         alt="Tập luyện">
+                    <div>
+                        <h3>Easy Home Workouts for Beginners</h3>
+                        <span class="views">⌕ 90K searches</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=300"
+                         alt="Thời trang">
+                    <div>
+                        <h3>Top Trending Fashion Styles This Season</h3>
+                        <span class="views">⌕ 80K searches</span>
+                    </div>
+                </div>
+
+                <div class="card extra hidden">
+                    <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=300"
+                         alt="Nhà cửa">
+                    <div>
+                        <h3>Minimalist Home Decoration Ideas</h3>
+                        <span class="views">⌕ 75K searches</span>
+                    </div>
+                </div>
+
+                <div class="card extra hidden">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300"
+                         alt="Phong cách sống">
+                    <div>
+                        <h3>Simple Daily Lifestyle Tips</h3>
+                        <span class="views">⌕ 70K searches</span>
+                    </div>
+                </div>
+
+                <div class="card extra hidden">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=300"
+                         alt="Máy tính">
+                    <div>
+                        <h3>New Digital Technology Trends</h3>
+                        <span class="views">⌕ 65K searches</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="arrow" id="prevBtn">←</button>
+                <button class="arrow" id="nextBtn">→</button>
+            </div>
+
+            <button class="show-more" id="showMore">Show More</button>
+        </section>
+    </main>
+
+    <footer>
+        <div class="logo">
+            <span>🪐</span>
+            <span>SearchEngine</span>
+        </div>
+
+        <div class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Help</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+        </div>
+
+        <div>● &nbsp; ▶ &nbsp; ♥</div>
+    </footer>
+
+    <script>
+        const searchInput = document.getElementById("searchInput");
+        const cards = document.querySelectorAll(".card");
+        const showMore = document.getElementById("showMore");
+
+        // Tìm kiếm theo tiêu đề
+        searchInput.addEventListener("input", function() {
+            const keyword = this.value.toLowerCase();
+
+            cards.forEach(function(card) {
+                const title = card.querySelector("h3").textContent.toLowerCase();
+
+                card.style.display = title.includes(keyword) ? "flex" : "none";
+            });
+        });
+
+        // Hiển thị thêm kết quả
+        showMore.addEventListener("click", function() {
+            const extraCards = document.querySelectorAll(".extra");
+
+            extraCards.forEach(function(card) {
+                card.classList.toggle("hidden");
+            });
+
+            this.textContent =
+                this.textContent === "Show More" ? "Show Less" : "Show More";
+        });
+
+        // Chuyển đổi thứ tự danh sách
+        document.getElementById("nextBtn").addEventListener("click", function() {
+            const list = document.getElementById("trendingList");
+            list.appendChild(list.firstElementChild);
+        });
+
+        document.getElementById("prevBtn").addEventListener("click", function() {
+            const list = document.getElementById("trendingList");
+            list.insertBefore(list.lastElementChild, list.firstElementChild);
+        });
+    </script>
+</body>
+</html>

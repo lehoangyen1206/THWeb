@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài tập Neo (Anchors)</title>
+</head>
+<body>
+    <h2>Bài 1: Kiểm tra chuỗi bắt đầu bằng "http"</h2>
+    <input type="text" id="bai1" placeholder="Nhập chuỗi cần kiểm tra">
+    <button onclick="kiemTraBai1()">Kiểm tra</button>
+    <p id="kq1"></p>
+
+    <h2>Bài 2: Kiểm tra tên file kết thúc bằng ".jsx"</h2>
+    <input type="text" id="bai2" placeholder="Nhập tên file">
+    <button onclick="kiemTraBai2()">Kiểm tra</button>
+    <p id="kq2"></p>
+
+    <h2>Bài 3: Lấy số thứ tự ở đầu mỗi dòng</h2>
+    <textarea id="bai3" rows="4" cols="30">1. Mở
+2. Đóng
+3. Lưu</textarea>
+    <br>
+    <button onclick="kiemTraBai3()">Lấy số thứ tự</button>
+    <p id="kq3"></p>
+
+    <script>
+        function kiemTraBai1() {
+            let chuoi = document.getElementById("bai1").value;
+            let regex = /^http/;
+
+            document.getElementById("kq1").innerText =
+                regex.test(chuoi) ? "True" : "False";
+        }
+
+        function kiemTraBai2() {
+            let tenFile = document.getElementById("bai2").value;
+            let regex = /\.jsx$/;
+
+            document.getElementById("kq2").innerText =
+                regex.test(tenFile) ? "True" : "False";
+        }
+
+        function kiemTraBai3() {
+            let chuoi = document.getElementById("bai3").value;
+            let regex = /^\d+/gm;
+            let ketQua = chuoi.match(regex);
+
+            document.getElementById("kq3").innerText =
+                ketQua ? JSON.stringify(ketQua) : "Không tìm thấy số thứ tự";
+        }
+    </script>
+</body>
+</html>

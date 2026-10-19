@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài tập ký tự thoát</title>
+</head>
+<body>
+    <h2>Bài 1: Khớp đúng chuỗi "1+1=2"</h2>
+    <input type="text" id="bai1" value="1+1=2">
+    <button onclick="kiemTraBai1()">Kiểm tra</button>
+    <p id="kq1"></p>
+
+    <h2>Bài 2: Lấy các giá tiền dạng $100</h2>
+    <p>Chuỗi: Giá $100 và $25</p>
+    <button onclick="kiemTraBai2()">Lấy giá tiền</button>
+    <p id="kq2"></p>
+
+    <h2>Bài 3: Lấy các cụm trong ngoặc tròn</h2>
+    <p>Chuỗi: React (thư viện) và Vue (framework)</p>
+    <button onclick="kiemTraBai3()">Tìm cụm từ</button>
+    <p id="kq3"></p>
+
+    <script>
+        function kiemTraBai1() {
+            let chuoi = document.getElementById("bai1").value;
+            let regex = /^1\+1=2$/;
+
+            document.getElementById("kq1").innerText =
+                regex.test(chuoi) ? "Khớp đúng" : "Không khớp";
+        }
+
+        function kiemTraBai2() {
+            let chuoi = "Giá $100 và $25";
+            let regex = /\$\d+/g;
+            let ketQua = chuoi.match(regex);
+
+            document.getElementById("kq2").innerText =
+                JSON.stringify(ketQua);
+        }
+
+        function kiemTraBai3() {
+            let chuoi = "React (thư viện) và Vue (framework)";
+            let regex = /\([^)]*\)/g;
+            let ketQua = chuoi.match(regex);
+
+            document.getElementById("kq3").innerText =
+                JSON.stringify(ketQua);
+        }
+    </script>
+</body>
+</html>

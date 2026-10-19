@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài tập Tab và xuống dòng</title>
+</head>
+<body>
+    <h2>Bài 1: Đếm số dòng trong "a\nb\nc"</h2>
+    <button onclick="kiemTraBai1()">Đếm số dòng</button>
+    <p id="kq1"></p>
+
+    <h2>Bài 2: Đổi mọi ký tự tab thành 4 dấu cách</h2>
+    <p>Dữ liệu mẫu: Tên    Tuổi</p>
+    <button onclick="kiemTraBai2()">Thay thế tab</button>
+    <p id="kq2"></p>
+
+    <h2>Bài 3: Gộp nhiều dòng trống liên tiếp thành một</h2>
+    <button onclick="kiemTraBai3()">Gộp dòng trống</button>
+    <p id="kq3"></p>
+
+    <script>
+        function kiemTraBai1() {
+            let chuoi = "a\nb\nc";
+            let ketQua = chuoi.match(/\n/g).length + 1;
+
+            document.getElementById("kq1").innerText =
+                "Số dòng: " + ketQua;
+        }
+
+        function kiemTraBai2() {
+            let chuoi = "Tên\tTuổi";
+            let ketQua = chuoi.replace(/\t/g, "    ");
+
+            document.getElementById("kq2").innerText = ketQua;
+        }
+
+        function kiemTraBai3() {
+            let chuoi = "a\n\n\n\nb";
+            let ketQua = chuoi.replace(/\n{3,}/g, "\n\n");
+
+            document.getElementById("kq3").innerText = ketQua;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài tập Backreference</title>
+</head>
+<body>
+    <h2>Bài 1: Tìm các cặp chữ số giống nhau đứng liền nhau</h2>
+    <p>Chuỗi: 112345566</p>
+    <button onclick="kiemTraBai1()">Tìm cặp số</button>
+    <p id="kq1"></p>
+
+    <h2>Bài 2: Tìm cặp thẻ HTML có tên thẻ mở và đóng trùng nhau</h2>
+    <p>Chuỗi: &lt;b&gt;x&lt;/b&gt;&lt;i&gt;y&lt;/b&gt;</p>
+    <button onclick="kiemTraBai2()">Tìm cặp thẻ</button>
+    <p id="kq2"></p>
+
+    <h2>Bài 3: Kiểm tra chuỗi 4 ký tự đối xứng</h2>
+    <input type="text" id="bai3" value="abba">
+    <button onclick="kiemTraBai3()">Kiểm tra</button>
+    <p id="kq3"></p>
+
+    <script>
+        function kiemTraBai1() {
+            let chuoi = "112345566";
+            let regex = /(\d)\1/g;
+            let ketQua = chuoi.match(regex);
+
+            document.getElementById("kq1").innerText =
+                JSON.stringify(ketQua);
+        }
+
+        function kiemTraBai2() {
+            let chuoi = "<b>x</b><i>y</b>";
+            let regex = /<(\w+)>.*?<\/\1>/g;
+            let ketQua = chuoi.match(regex);
+
+            document.getElementById("kq2").innerText =
+                JSON.stringify(ketQua);
+        }
+
+        function kiemTraBai3() {
+            let chuoi = document.getElementById("bai3").value;
+            let regex = /^(\w)(\w)\2\1$/;
+
+            document.getElementById("kq3").innerText =
+                regex.test(chuoi) ? "True" : "False";
+        }
+    </script>
+</body>
+</html>

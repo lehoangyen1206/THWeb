@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài tập Non-capturing Group</title>
+</head>
+<body>
+    <h2>Bài 1: Viết lại /(ha)+/ thành nhóm không bắt</h2>
+    <p>Chuỗi: hahaha</p>
+    <button onclick="kiemTraBai1()">Kiểm tra</button>
+    <p id="kq1"></p>
+
+    <h2>Bài 2: Lấy tên miền chính</h2>
+    <p>Chuỗi: www.google.com và google.com</p>
+    <button onclick="kiemTraBai2()">Lấy tên miền</button>
+    <p id="kq2"></p>
+
+    <h2>Bài 3: Lấy số phút từ giờ</h2>
+    <p>Chuỗi: 08:30 và 8h30</p>
+    <button onclick="kiemTraBai3()">Lấy số phút</button>
+    <p id="kq3"></p>
+
+    <script>
+        function kiemTraBai1() {
+            let chuoi = "hahaha";
+            let regex = /(?:ha)+/;
+            let ketQua = chuoi.match(regex);
+
+            document.getElementById("kq1").innerText =
+                "Match: " + ketQua[0] +
+                " | match[1]: " + ketQua[1];
+        }
+
+        function kiemTraBai2() {
+            let regex = /^(?:www\.)?(\w+)\.com$/;
+            let chuoi1 = "www.google.com";
+            let chuoi2 = "google.com";
+
+            let kq1 = chuoi1.match(regex);
+            let kq2 = chuoi2.match(regex);
+
+            document.getElementById("kq2").innerText =
+                chuoi1 + " → " + kq1[1] + "\n" +
+                chuoi2 + " → " + kq2[1];
+        }
+
+        function kiemTraBai3() {
+            let regex = /\d{1,2}(?::|h)(\d{2})/;
+            let chuoi1 = "08:30";
+            let chuoi2 = "8h30";
+
+            let kq1 = chuoi1.match(regex);
+            let kq2 = chuoi2.match(regex);
+
+            document.getElementById("kq3").innerText =
+                chuoi1 + " → " + kq1[1] + "\n" +
+                chuoi2 + " → " + kq2[1];
+        }
+    </script>
+</body>
+</html>

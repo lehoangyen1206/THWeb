@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài tập Quantifiers</title>
+</head>
+<body>
+    <h2>Bài 1: Khớp "go", "goo", "gooo"...</h2>
+    <p>Chuỗi: g go gooo</p>
+    <button onclick="kiemTraBai1()">Tìm kết quả</button>
+    <p id="kq1"></p>
+
+    <h2>Bài 2: Kiểm tra số nguyên có thể mang dấu âm</h2>
+    <input type="text" id="bai2" value="-5" placeholder="Nhập số nguyên">
+    <button onclick="kiemTraBai2()">Kiểm tra</button>
+    <p id="kq2"></p>
+
+    <h2>Bài 3: Kiểm tra biểu thức x=5 có khoảng trắng</h2>
+    <input type="text" id="bai3" value="x = 5" placeholder="Nhập biểu thức">
+    <button onclick="kiemTraBai3()">Kiểm tra</button>
+    <p id="kq3"></p>
+
+    <script>
+        function kiemTraBai1() {
+            let chuoi = "g go gooo";
+            let regex = /go+/g;
+            let ketQua = chuoi.match(regex);
+
+            document.getElementById("kq1").innerText =
+                JSON.stringify(ketQua);
+        }
+
+        function kiemTraBai2() {
+            let chuoi = document.getElementById("bai2").value;
+            let regex = /^-?\d+$/;
+
+            document.getElementById("kq2").innerText =
+                regex.test(chuoi) ? "True" : "False";
+        }
+
+        function kiemTraBai3() {
+            let chuoi = document.getElementById("bai3").value;
+            let regex = /^x\s*=\s*5$/;
+
+            document.getElementById("kq3").innerText =
+                regex.test(chuoi) ? "True" : "False";
+        }
+    </script>
+</body>
+</html>

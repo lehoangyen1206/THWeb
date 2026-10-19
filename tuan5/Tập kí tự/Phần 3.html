@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài tập phần 3</title>
+</head>
+<body>
+    <h2>Bài 1: Lấy các chữ in hoa (không dấu) trong "Học ReactJS Và TypeScript".</h2>
+
+    <script>
+        let chuoi1 = "Học ReactJS Và TypeScript";
+        let ketQua1 = chuoi1.match(/[A-Z]/g);
+
+        document.write("Chuỗi ban đầu: " + chuoi1 + "<br>");
+        document.write("Kết quả: " + ketQua1);
+    </script>
+
+    <h2>Bài 2: Kiểm tra mã màu hex dạng #1a2B3c: dấu # rồi đúng 6 ký tự hex.</h2>
+
+    <script>
+        let maMau1 = "#1a2B3c";
+        let maMau2 = "#1a2B3g";
+
+        let regex = /^#[0-9a-fA-F]{6}$/;
+
+        document.write(maMau1 + " → " + regex.test(maMau1) + "<br>");
+        document.write(maMau2 + " → " + regex.test(maMau2));
+    </script>
+    
+    <h2>Bài 3: Trong "CNTT-A CNTT-E CNTT-C", lấy các mã lớp từ A đến D</h2>
+
+    <script>
+        let chuoi2 = "CNTT-A CNTT-E CNTT-C";
+        let ketQua2 = chuoi2.match(/CNTT-[A-D]/g)
+
+        document.write("Chuỗi ban đầu: " + chuoi2 + "<br>");
+        document.write("Kết quả: " + ketQua2);
+    </script>
+</body>
+</html>

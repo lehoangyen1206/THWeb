@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchEngine - Visual Search Results</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fff;
+            color: #202124;
+            padding-bottom: 40px;
+        }
+
+        /* Header */
+        header {
+            padding: 12px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 18px;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .search-pill-tag {
+            background: #f1f3f4;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-icons-right {
+            display: flex;
+            gap: 12px;
+            color: #4f46e5;
+            font-size: 13px;
+            margin-left: 10px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Filter Subnav */
+        .subnav {
+            padding: 10px 40px;
+            display: flex;
+            gap: 20px;
+            border-bottom: 1px solid #f1f3f4;
+            font-size: 13px;
+            color: #5f6368;
+        }
+
+        .subnav a {
+            text-decoration: none;
+            color: #5f6368;
+            padding-bottom: 4px;
+        }
+
+        .subnav a.active {
+            color: #4f46e5;
+            border-bottom: 2px solid #4f46e5;
+            font-weight: 500;
+        }
+
+        /* Main Visual Search Layout */
+        .visual-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 30px;
+        }
+
+        /* Left Side: Uploaded Image Cropper Panel */
+        .cropper-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .crop-box {
+            width: 100%;
+            height: 240px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            position: relative;
+            background-image: url('https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?w=600');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+
+        /* Cyan Crop Frame Handles */
+        .crop-frame {
+            position: absolute;
+            top: 20%;
+            left: 15%;
+            right: 15%;
+            bottom: 20%;
+            border: 2px solid #06b6d4;
+            box-shadow: 0 0 0 9999px rgba(0,0,0,0.25);
+        }
+
+        .crop-corner {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #06b6d4;
+        }
+        .crop-corner.tl { top: -5px; left: -5px; }
+        .crop-corner.tr { top: -5px; right: -5px; }
+        .crop-corner.bl { bottom: -5px; left: -5px; }
+        .crop-corner.br { bottom: -5px; right: -5px; }
+
+        .visual-search-btn {
+            margin-top: 15px;
+            border: 1px solid #6366f1;
+            color: #6366f1;
+            background: #fff;
+            padding: 6px 16px;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* Right Side: Matched Image Grid */
+        .results-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-stats {
+            font-size: 11px;
+            color: #777;
+            margin-bottom: 12px;
+        }
+
+        /* Tag Categories Filters */
+        .filter-tags {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .tag-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f1f3f4;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 11px;
+            color: #444;
+            cursor: pointer;
+        }
+
+        .tag-chip img {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* 4-column Product/Image Grid */
+        .image-results-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .visual-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .visual-card-img {
+            width: 100%;
+            height: 130px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            margin-bottom: 6px;
+        }
+
+        .visual-card-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #333;
+            line-height: 1.2;
+        }
+
+        .visual-card-price {
+            font-size: 11px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .show-more-btn {
+            display: block;
+            margin: 25px auto 10px auto;
+            padding: 6px 18px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 12px;
+            font-size: 11px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        /* Related Searches Footer Tags */
+        .related-tags-bar {
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .related-tags-bar h5 {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .related-chips-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chip-btn {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 11px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 11px;
+            color: #888;
+        }
+
+        footer a {
+            color: #888;
+            margin: 0 6px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <div class="logo">
+                <i class="fa-solid fa-sparkles"></i> SearchEngine
+            </div>
+            <div class="search-pill-tag">
+                <i class="fa-solid fa-chair" style="color: #666;"></i>
+                <span>Round table</span>
+                <div class="search-icons-right">
+                    <i class="fa-regular fa-image"></i>
+                    <i class="fa-solid fa-microphone"></i>
+                </div>
+            </div>
+        </div>
+        <div class="user-profile">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="Avatar" class="avatar">
+            <span>Sofia Perez</span>
+        </div>
+    </header>
+
+    <!-- Sub Navigation -->
+    <div class="subnav">
+        <a href="#">All</a>
+        <a href="#" class="active">Images</a>
+        <a href="#">Videos</a>
+        <a href="#">News</a>
+        <a href="#">More <i class="fa-solid fa-chevron-down" style="font-size: 10px;"></i></a>
+        <a href="#" style="margin-left: auto;">Tools</a>
+    </div>
+
+    <!-- Main Container -->
+    <div class="visual-container">
+        
+        <!-- Left Side Cropper -->
+        <div class="cropper-panel">
+            <div class="crop-box">
+                <div class="crop-frame">
+                    <div class="crop-corner tl"></div>
+                    <div class="crop-corner tr"></div>
+                    <div class="crop-corner bl"></div>
+                    <div class="crop-corner br"></div>
+                </div>
+            </div>
+            <button class="visual-search-btn">Visual Search</button>
+        </div>
+
+        <!-- Right Side Grid Results -->
+        <div class="results-section">
+            <div class="search-stats">About 1,300 results</div>
+
+            <!-- Tags Filters -->
+            <div class="filter-tags">
+                <div class="tag-chip">
+                    <img src="https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?w=50" alt="Study">
+                    <span>Study</span>
+                </div>
+                <div class="tag-chip">
+                    <img src="https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?w=50" alt="Furniture">
+                    <span>Furniture</span>
+                </div>
+                <div class="tag-chip">
+                    <img src="https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?w=50" alt="Coffee">
+                    <span>Coffee</span>
+                </div>
+                <div class="tag-chip">
+                    <img src="https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?w=50" alt="Wood">
+                    <span>Wood</span>
+                </div>
+            </div>
+
+            <!-- Image Results Grid -->
+            <div class="image-results-grid">
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?w=300');"></div>
+                    <div class="visual-card-title">Coffee Square Table</div>
+                    <div class="visual-card-price">$90</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1581539250439-c96689b516dd?w=300');"></div>
+                    <div class="visual-card-title">Metal Round Table</div>
+                    <div class="visual-card-price">$185</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=300');"></div>
+                    <div class="visual-card-title">Wooden Round Table</div>
+                    <div class="visual-card-price">$185</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=300');"></div>
+                    <div class="visual-card-title">Wooden Round Table</div>
+                    <div class="visual-card-price">$70</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?w=300');"></div>
+                    <div class="visual-card-title">Wooden Round Table</div>
+                    <div class="visual-card-price">$70</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1581539250439-c96689b516dd?w=300');"></div>
+                    <div class="visual-card-title">Wooden Square Table</div>
+                    <div class="visual-card-price">$185</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=300');"></div>
+                    <div class="visual-card-title">Wooden Round Table</div>
+                    <div class="visual-card-price">$80</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=300');"></div>
+                    <div class="visual-card-title">Wooden Round Table</div>
+                    <div class="visual-card-price">$250</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?w=300');"></div>
+                    <div class="visual-card-title">Wooden Round Table</div>
+                    <div class="visual-card-price">$190</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1581539250439-c96689b516dd?w=300');"></div>
+                    <div class="visual-card-title">Marble Round Table</div>
+                    <div class="visual-card-price">$185</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=300');"></div>
+                    <div class="visual-card-title">Wooden Round Table</div>
+                    <div class="visual-card-price">$120</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=300');"></div>
+                    <div class="visual-card-title">Marble Round Table</div>
+                    <div class="visual-card-price">$260</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?w=300');"></div>
+                    <div class="visual-card-title">Borderless Bar Stool</div>
+                    <div class="visual-card-price">$90</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1581539250439-c96689b516dd?w=300');"></div>
+                    <div class="visual-card-title">Round Table</div>
+                    <div class="visual-card-price">$185</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=300');"></div>
+                    <div class="visual-card-title">Wooden Square Table</div>
+                    <div class="visual-card-price">$70</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=300');"></div>
+                    <div class="visual-card-title">Wooden Square Table</div>
+                    <div class="visual-card-price">$210</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?w=300');"></div>
+                    <div class="visual-card-title">Wooden Square Table</div>
+                    <div class="visual-card-price">$60</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1581539250439-c96689b516dd?w=300');"></div>
+                    <div class="visual-card-title">Coffee Round Table</div>
+                    <div class="visual-card-price">$95</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=300');"></div>
+                    <div class="visual-card-title">Wooden Square Table</div>
+                    <div class="visual-card-price">$60</div>
+                </div>
+
+                <div class="visual-card">
+                    <div class="visual-card-img" style="background-image: url('https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=300');"></div>
+                    <div class="visual-card-title">Wooden Work Table</div>
+                    <div class="visual-card-price">$59</div>
+                </div>
+            </div>
+
+            <button class="show-more-btn">Show more</button>
+
+            <!-- Related Searches Bar -->
+            <div class="related-tags-bar">
+                <h5>Related searches for Tables</h5>
+                <div class="related-chips-group">
+                    <div class="chip-btn"><i class="fa-solid fa-magnifying-glass"></i> wooden table</div>
+                    <div class="chip-btn"><i class="fa-solid fa-magnifying-glass"></i> coffee shop table</div>
+                    <div class="chip-btn"><i class="fa-solid fa-magnifying-glass"></i> living room table</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <a href="#">Manage Cookies</a> | 
+        <a href="#">Privacy</a> | 
+        <a href="#">Legal</a> | 
+        <a href="#">About us</a> | 
+        <a href="#">Help</a> | 
+        <a href="#">Feedback</a>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài tập Negative Lookahead</title>
+</head>
+<body>
+    <h2>Bài 1: Lấy số không theo sau bởi dấu %</h2>
+    <p>Chuỗi: 50% và 30 người</p>
+    <button onclick="kiemTraBai1()">Tìm số</button>
+    <p id="kq1"></p>
+
+    <h2>Bài 2: Tìm từ bắt đầu bằng "re" nhưng không phải "react"</h2>
+    <p>Chuỗi: react return read</p>
+    <button onclick="kiemTraBai2()">Tìm từ</button>
+    <p id="kq2"></p>
+
+    <h2>Bài 3: Kiểm tra tên file không chứa chữ "test"</h2>
+    <input type="text" id="bai3" value="app.js" placeholder="Nhập tên file">
+    <button onclick="kiemTraBai3()">Kiểm tra</button>
+    <p id="kq3"></p>
+
+    <script>
+        function kiemTraBai1() {
+            let chuoi = "50% và 30 người";
+            let regex = /\d+(?![\d%])/g;
+            let ketQua = chuoi.match(regex);
+
+            document.getElementById("kq1").innerText =
+                JSON.stringify(ketQua);
+        }
+
+        function kiemTraBai2() {
+            let chuoi = "react return read";
+            let regex = /\bre(?!act)\w*/g;
+            let ketQua = chuoi.match(regex);
+
+            document.getElementById("kq2").innerText =
+                JSON.stringify(ketQua);
+        }
+
+        function kiemTraBai3() {
+            let tenFile = document.getElementById("bai3").value;
+            let regex = /^(?!.*test).*$/;
+
+            document.getElementById("kq3").innerText =
+                regex.test(tenFile) ? "True" : "False";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,578 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchEngine - Image Search</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #252936;
+            background: #f7f7fb;
+        }
+
+        header {
+            height: 65px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #5655ff;
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .logo-icon {
+            font-size: 34px;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #626778;
+            padding: 22px 0;
+        }
+
+        nav a.active,
+        nav a:hover {
+            color: #5655ff;
+            border-bottom: 2px solid #5655ff;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+        }
+
+        .avatar {
+            width: 30px;
+            height: 30px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: auto;
+            padding: 25px 30px 45px;
+        }
+
+        .search-box {
+            width: min(100%, 500px);
+            height: 44px;
+            margin: 0 auto 35px;
+            padding: 0 18px;
+            background: white;
+            border: 1px solid #ececf4;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .search-box span {
+            color: #777d91;
+            font-size: 20px;
+        }
+
+        .search-box input {
+            flex: 1;
+            min-width: 0;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 25px;
+            margin: 25px 0;
+        }
+
+        h2 {
+            font-size: 23px;
+            margin: 40px 0 25px;
+        }
+
+        .topics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .topic {
+            position: relative;
+            height: 170px;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .topic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .topic:hover img {
+            transform: scale(1.05);
+        }
+
+        .topic::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(transparent, #00000070);
+        }
+
+        .topic h3 {
+            position: absolute;
+            left: 20px;
+            bottom: 10px;
+            z-index: 1;
+            color: white;
+            font-size: 20px;
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 25px 0 35px;
+        }
+
+        .category {
+            border: none;
+            background: white;
+            border-radius: 25px;
+            padding: 10px 16px;
+            cursor: pointer;
+            color: #505568;
+            box-shadow: 0 2px 8px #00000008;
+        }
+
+        .category:hover,
+        .category.active {
+            color: white;
+            background: #5655ff;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-auto-rows: 145px;
+            gap: 12px;
+        }
+
+        .photo {
+            position: relative;
+            overflow: hidden;
+            border-radius: 9px;
+            background: #e8eaf2;
+        }
+
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s;
+        }
+
+        .photo:hover img {
+            transform: scale(1.06);
+        }
+
+        .photo.wide {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .photo.tall {
+            grid-row: span 2;
+        }
+
+        .photo.hidden {
+            display: none;
+        }
+
+        .show-more {
+            display: block;
+            margin: 30px auto 0;
+            padding: 11px 22px;
+            border: none;
+            border-radius: 25px;
+            color: #4e4de7;
+            background: #eeeeff;
+            cursor: pointer;
+        }
+
+        .show-more:hover {
+            color: white;
+            background: #5655ff;
+        }
+
+        footer {
+            min-height: 70px;
+            background: white;
+            padding: 20px 35px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            color: #777d91;
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        footer a {
+            color: #777d91;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #5655ff;
+        }
+
+        @media (max-width: 750px) {
+            header {
+                height: auto;
+                padding: 15px;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            nav {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                gap: 18px;
+            }
+
+            nav a {
+                padding: 8px 0;
+            }
+
+            main {
+                padding: 20px 15px;
+            }
+
+            .topic {
+                height: 130px;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-auto-rows: 130px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .topics {
+                grid-template-columns: 1fr;
+            }
+
+            .topic {
+                height: 160px;
+            }
+
+            .gallery {
+                grid-auto-rows: 110px;
+            }
+
+            .topic h3 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <span class="logo-icon">🪐</span>
+            <span>SearchEngine</span>
+        </div>
+
+        <nav>
+            <a class="active" href="images.html">Images</a>
+            <a href="#">Videos</a>
+            <a href="#">Shopping</a>
+            <a href="#">News</a>
+        </nav>
+
+        <div class="user">
+            <img class="avatar"
+                 src="https://i.pravatar.cc/100?img=47"
+                 alt="Avatar">
+            <span>Sofia Perez</span>
+            <span>⌄</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="search-box">
+            <span>⌕</span>
+            <input type="text" id="searchInput"
+                   placeholder="Search images...">
+            <span>▧</span>
+            <span>♩</span>
+        </div>
+
+        <section>
+            <h1>Trending Image Searches</h1>
+
+            <div class="topics">
+                <div class="topic" data-keyword="nature">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600"
+                         alt="Hair trends">
+                    <h3>Hairstyle<br>Trends</h3>
+                </div>
+
+                <div class="topic" data-keyword="nature">
+                    <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600"
+                         alt="Aurora">
+                    <h3>Chasing<br>the Aurora</h3>
+                </div>
+
+                <div class="topic" data-keyword="home">
+                    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600"
+                         alt="Home decorations">
+                    <h3>Home<br>Decorations</h3>
+                </div>
+            </div>
+        </section>
+
+        <div class="categories">
+            <button class="category active" data-category="all">🌐 All</button>
+            <button class="category" data-category="nature">🌿 Nature</button>
+            <button class="category" data-category="home">🪴 Building</button>
+            <button class="category" data-category="animals">🐾 Animals</button>
+            <button class="category" data-category="travel">🌍 Travel</button>
+            <button class="category" data-category="food">🍵 Food</button>
+            <button class="category" data-category="more">More</button>
+        </div>
+
+        <section>
+            <h2>Images You May Like</h2>
+
+            <div class="gallery" id="gallery">
+                <div class="photo wide" data-category="nature"
+                     data-title="red tropical plant">
+                    <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800"
+                         alt="Tropical plant">
+                </div>
+
+                <div class="photo" data-category="home"
+                     data-title="indoor plants and home">
+                    <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=500"
+                         alt="Plants in a home">
+                </div>
+
+                <div class="photo" data-category="nature"
+                     data-title="pink rose flower">
+                    <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=500"
+                         alt="Flower">
+                </div>
+
+                <div class="photo" data-category="nature"
+                     data-title="ocean waves">
+                    <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=500"
+                         alt="Ocean">
+                </div>
+
+                <div class="photo" data-category="food"
+                     data-title="tea and food">
+                    <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=500"
+                         alt="Tea">
+                </div>
+
+                <div class="photo" data-category="home"
+                     data-title="plant in a vase">
+                    <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=500"
+                         alt="Plant in a vase">
+                </div>
+
+                <div class="photo" data-category="animals"
+                     data-title="hedgehog animal">
+                    <img src="https://images.unsplash.com/photo-1564594985645-4427056e22e2?w=500"
+                         alt="Animal">
+                </div>
+
+                <div class="photo" data-category="animals"
+                     data-title="polar bear in snow">
+                    <img src="https://images.unsplash.com/photo-1557008075-7f2c5efa4cfd?w=500"
+                         alt="Animal in snow">
+                </div>
+
+                <div class="photo" data-category="home"
+                     data-title="living room interior">
+                    <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=500"
+                         alt="Living room">
+                </div>
+
+                <div class="photo" data-category="nature"
+                     data-title="bird on a branch">
+                    <img src="https://images.unsplash.com/photo-1444464666168-49d633b86797?w=500"
+                         alt="Bird">
+                </div>
+
+                <div class="photo tall" data-category="nature"
+                     data-title="blue underwater ocean">
+                    <img src="https://images.unsplash.com/photo-1530053969600-caed2596d242?w=500"
+                         alt="Underwater">
+                </div>
+
+                <div class="photo wide" data-category="home"
+                     data-title="modern living room plants">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800"
+                         alt="Modern home">
+                </div>
+
+                <div class="photo hidden" data-category="travel"
+                     data-title="mountain landscape">
+                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500"
+                         alt="Mountains">
+                </div>
+
+                <div class="photo hidden" data-category="food"
+                     data-title="fresh fruit">
+                    <img src="https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=500"
+                         alt="Fruit">
+                </div>
+            </div>
+
+            <button class="show-more" id="showMore">Show More</button>
+        </section>
+    </main>
+
+    <footer>
+        <div class="logo">
+            <span>🪐</span>
+            <span>SearchEngine</span>
+        </div>
+
+        <div class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Help</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+        </div>
+
+        <div>● &nbsp; ▶ &nbsp; ♥</div>
+    </footer>
+
+    <script>
+        const searchInput = document.getElementById("searchInput");
+        const photos = document.querySelectorAll(".photo");
+        const categoryButtons = document.querySelectorAll(".category");
+        const showMore = document.getElementById("showMore");
+
+        let selectedCategory = "all";
+        let showAll = false;
+
+        // Lọc ảnh theo danh mục và từ khóa
+        function filterImages() {
+            const keyword = searchInput.value.toLowerCase();
+
+            photos.forEach(function(photo) {
+                const title = photo.dataset.title.toLowerCase();
+                const category = photo.dataset.category;
+
+                const matchKeyword = title.includes(keyword);
+                const matchCategory =
+                    selectedCategory === "all" ||
+                    selectedCategory === "more" ||
+                    category === selectedCategory;
+
+                const isExtra = photo.classList.contains("extra-item");
+
+                const matchMore = showAll || !isExtra;
+
+                photo.style.display =
+                    matchKeyword && matchCategory && matchMore ? "block" : "none";
+            });
+        }
+
+        // Chọn danh mục
+        categoryButtons.forEach(function(button) {
+            button.addEventListener("click", function() {
+                categoryButtons.forEach(function(item) {
+                    item.classList.remove("active");
+                });
+
+                this.classList.add("active");
+                selectedCategory = this.dataset.category;
+
+                filterImages();
+            });
+        });
+
+        // Tìm kiếm ảnh
+        searchInput.addEventListener("input", filterImages);
+
+        // Hiển thị thêm ảnh
+        showMore.addEventListener("click", function() {
+            const extraPhotos = document.querySelectorAll(".photo.hidden");
+
+            extraPhotos.forEach(function(photo) {
+                photo.classList.toggle("hidden");
+                photo.classList.toggle("extra-item");
+            });
+
+            showAll = !showAll;
+            this.textContent = showAll ? "Show Less" : "Show More";
+
+            filterImages();
+        });
+
+        // Nhấn chủ đề nổi bật để lọc theo chủ đề
+        document.querySelectorAll(".topic").forEach(function(topic) {
+            topic.addEventListener("click", function() {
+                searchInput.value = "";
+                selectedCategory = this.dataset.keyword;
+
+                categoryButtons.forEach(function(button) {
+                    button.classList.toggle(
+                        "active",
+                        button.dataset.category === selectedCategory
+                    );
+                });
+
+                filterImages();
+            });
+        });
+    </script>
+</body>
+</html>
